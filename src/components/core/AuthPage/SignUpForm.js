@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useDispatch, useSelector } from 'react-redux';
-import sendOtp from '../../../services/operations/sendOtp';
+
 import { useNavigate } from 'react-router-dom';
 import {setSignupData} from '../../../slices/auth'
+import { sendOtp } from '../../../services/operations/authOperatins';
 
 
 function SignUpForm() {

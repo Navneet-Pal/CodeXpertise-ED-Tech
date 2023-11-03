@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { BiArrowBack } from "react-icons/bi";
 import { Link, useNavigate } from 'react-router-dom'
-import sendOtp from '../services/operations/sendOtp'
+
 import { useDispatch, useSelector } from 'react-redux'
 import OTPInput from 'react-otp-input'
 import { RxCountdownTimer } from "react-icons/rx";
-import { signUp } from '../services/operations/authOperatins';
+import { sendOtp, signUp } from '../services/operations/authOperatins';
 
 
 function VerifyEmail() {

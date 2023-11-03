@@ -15,7 +15,7 @@ exports.resetPasswordToken = async (req,res)=>{
         }
         const token = crypto.randomUUID();
         console.log("token while sending mail: ", token);
-        const url = `https://localhost:3000/update-password/${token}`;
+        const url = `http://localhost:3000/update-password/${token}`;
         const response = await User.findByIdAndUpdate(userDetail._id ,
                                                                     {token:token ,
                                                                      resetPasstokenExpire:Date.now()*5*60 }
@@ -68,7 +68,7 @@ exports.resetPassword = async (req,res)=>{
         const response = await User.findOneAndUpdate({token} , {password:hashPassword} , {new:true});
        
         res.status(200).json({
-            status:true,
+            success:true,
             message:"password succesfully reset"
         }) 
         
