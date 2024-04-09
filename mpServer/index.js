@@ -22,7 +22,7 @@ DBconnect();
 // cors ek method hai joh web api ko security provide karata hai
 app.use(
 	cors({
-		origin:"https://codexpertise-backend.onrender.com",
+		origin:"https://codexpertise.vercel.app",
 		credentials:true,
 	})
 )
