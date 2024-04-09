@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
 import { useDispatch, useSelector } from 'react-redux';
-
+import { toast } from "react-hot-toast"
 import { useNavigate } from 'react-router-dom';
 import {setSignupData} from '../../../slices/auth'
 import { sendOtp } from '../../../services/operations/authOperatins';
@@ -27,6 +27,10 @@ function SignUpForm() {
 
     function submitHandler(e){
         e.preventDefault();
+        if (formData.password !== formData.confirmPassword) {
+          toast.error("Passwords Do not Match")
+          return
+        }
 
         const signupData = {...formData , accountType};
        

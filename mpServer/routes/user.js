@@ -3,7 +3,7 @@ const router = express.Router();
 
 const {signUp , login, sendOtp, changePassword} = require("../controllers/auth");
 const { resetPasswordToken, resetPassword } = require("../controllers/resetPassword");
-const {auth} = require("../middleware/authRoles");
+const {authe} = require("../middleware/authRoles");
 
 // ********************************************************************************************************
 //                                      Authentication routes
@@ -12,7 +12,7 @@ const {auth} = require("../middleware/authRoles");
 router.post("/signup" , signUp);
 router.post("/login" , login);
 router.post("/sendotp" , sendOtp);
-router.post("/changePassword" ,auth,changePassword);
+router.post("/changePassword" ,authe,changePassword);
 
 
 // ********************************************************************************************************

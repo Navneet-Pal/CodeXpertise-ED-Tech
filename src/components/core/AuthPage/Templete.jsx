@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import frameImg from '../../../assets/Images/frame.png'
 import SignUpForm from './SignUpForm'
 import LoginForm from './LoginForm'
-import Spinner from '../../Common/Spinner';
+import { useSelector } from "react-redux"
 
 function Templete({heading,subheading,blueheading,formType,image}) {
 
-    const [loading,setloading] = useState(false);
+    const { loading } = useSelector((state) => state.auth)
 
 
   return (
@@ -14,7 +14,7 @@ function Templete({heading,subheading,blueheading,formType,image}) {
     
        
             {
-                loading ? (<Spinner/>): (
+                loading ? (<div className="spinner"></div>): (
                     <div className='flex justify-between my-14 items-center  '>
 
                         <div className=' max-w-[450px]'>

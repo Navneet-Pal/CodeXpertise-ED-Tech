@@ -23,9 +23,9 @@ function UpdatePassword() {
         e.preventDefault();
         const { password, confirmPassword } = formData;
         const token = location.pathname.split("/").at(-1)
-        console.log(token)
-        console.log(password) 
-        console.log(confirmPassword) 
+        // console.log(token)
+        // console.log(password) 
+        // console.log(confirmPassword) 
         dispatch(resetPassword(password,confirmPassword,token,setResetDone))
     }
 

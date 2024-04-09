@@ -17,23 +17,26 @@ export default function Sidebar() {
   const navigate= useNavigate();
 
   return (
-    <div className='border-r-2 border-r-richblack-700  bg-richblack-800 w-[220px] min-h-[calc(100vh-3.5rem)]'>
+    <>
+    <div className='flex h-[calc(100vh-3.5rem)] min-w-[220px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800 py-10'>
     
-      <div className='border-b-2 border-b-richblack-700 py-8'>
+      <div className="flex flex-col">
       {
         sidebarLinks.map( (item,index) => {
           
-          if(item.type && item.type != user.accountType) return null 
+          if(item.type && user?.accountType !== item.type) return null 
           return(
-            <SidebarDiv item={item} key={index} />
+            <SidebarDiv item={item} key={index} iconName={item.icon}/>
           )
         })
       }
       </div>
 
-      <div className='py-8 w-[90%] mx-auto'>
+      <div className="mx-auto mt-6 mb-6 h-[1px] w-10/12 bg-richblack-700" />
+
+      <div className="flex flex-col">
       
-        <SidebarDiv item={{ name: "Settings", path: "/dashboard/setting" ,icon:"VscSettingsGear" }}  />
+        <SidebarDiv item={{ name: "Settings", path: "/dashboard/setting" }} iconName="VscSettingsGear" />
 
         <button className='flex items-center ml-6 gap-x-2 py-2 text-sm font-medium text-richblack-300'
         onClick={()=>setconfirmationModel( {
@@ -50,8 +53,10 @@ export default function Sidebar() {
       
       </div>
 
-      {confirmationModel && <ConfirmationModel modalData={confirmationModel} />}
+      
 
     </div>
+    {confirmationModel && <ConfirmationModel modalData={confirmationModel} />}
+    </>
   )
 }

@@ -1,6 +1,8 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form';
 import CountryCode from '../../data/countrycode.json'
+import { apiConnector } from "../../services/apiConnector"
+import { contactusEndpoint } from "../../services/apis"
 
 export default function ContactForm() {
 
@@ -12,10 +14,39 @@ export default function ContactForm() {
         formState:{errors,isSubmitSuccessful}
     }=useForm();
 
+    const submitContactForm = async (data) => {
+        // console.log("Form Data - ", data)
+        try {
+          setLoading(true)
+          const res = await apiConnector(
+            "POST",
+            contactusEndpoint.CONTACT_US_API,
+            data
+          )
+        //   console.log("Email Res - ", res)
+          setLoading(false)
+        } catch (error) {
+          console.log("ERROR MESSAGE - ", error.message)
+          setLoading(false)
+        }
+      }
+
+      useEffect(() => {
+        if (isSubmitSuccessful) {
+          reset({
+            email: "",
+            firstname: "",
+            lastname: "",
+            message: "",
+            phoneNo: "",
+          })
+        }
+      }, [reset, isSubmitSuccessful])
+
   return (
     <div className=' mt-10'>
 
-    <form className="flex flex-col gap-7">
+    <form className="flex flex-col gap-7" onSubmit={handleSubmit(submitContactForm)} >
         {/*first row*/}
         <div className='flex gap-5 '>
         

@@ -2,9 +2,9 @@ import React from 'react'
 import * as Icons from 'react-icons/vsc'
 import { Link, useLocation } from 'react-router-dom'
 
-export default function SidebarDiv({item}) {
+export default function SidebarDiv({item,iconName}) {
 
-    let Icon = Icons[item.icon] 
+    let Icon = Icons[iconName] 
     const location = useLocation()
 
   return (

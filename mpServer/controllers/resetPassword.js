@@ -1,7 +1,8 @@
 const User= require("../models/user");
-const {sendMail} = require("../utils/sendMail");
+
 const bcrypt = require("bcrypt");
 const crypto = require("crypto");
+const mailSender = require("../utils/mailSender");
 
 exports.resetPasswordToken = async (req,res)=>{
     try {
@@ -14,14 +15,14 @@ exports.resetPasswordToken = async (req,res)=>{
 			});
         }
         const token = crypto.randomUUID();
-        console.log("token while sending mail: ", token);
+        
         const url = `http://localhost:3000/update-password/${token}`;
         const response = await User.findByIdAndUpdate(userDetail._id ,
                                                                     {token:token ,
                                                                      resetPasstokenExpire:Date.now()*5*60 }
                                                                     ,{new:true}
         );
-       await sendMail(email , "Reset Password" , 
+       await mailSender(email , "Reset Password" , 
                  `Your Link for email verification is ${url}. Please click this url to reset your password.`
 	    );
         res.json({
@@ -42,7 +43,7 @@ exports.resetPasswordToken = async (req,res)=>{
 exports.resetPassword = async (req,res)=>{
     try {
         const {password , confirmPassword,token} = req.body;
-        console.log(password , confirmPassword)
+        // console.log(password , confirmPassword)
         if(password !== confirmPassword){
             return res.json({
 				success: false,

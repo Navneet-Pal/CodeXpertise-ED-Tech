@@ -6,6 +6,7 @@ import { RiEditBoxLine } from "react-icons/ri"
 export default function MyProfile() {
 
     const {user} = useSelector((state) => state.profile)
+    // console.log("user toh dekhe",user)
 
   return (
     <div className='text-white'>
@@ -81,7 +82,7 @@ export default function MyProfile() {
                         
                         <div >
                             <p className="mb-2 text-sm text-richblack-600">Gender</p>
-                            <p className="text-sm font-medium text-richblack-5">{user.gender ? (user.gender):("Add Gender")}</p>
+                            <p className="text-sm font-medium text-richblack-5">{user.additionalDetails.gender ? (user.additionalDetails.gender):("Add Gender")}</p>
                         </div>    
 
                     </div>
@@ -97,12 +98,12 @@ export default function MyProfile() {
 
                         <div >
                             <p className="mb-2 text-sm text-richblack-600">Phone Number</p>
-                            <p className="text-sm font-medium text-richblack-5">{user.contactNumber ? (user.contactNumber):("Add contact Number")}</p>
+                            <p className="text-sm font-medium text-richblack-5">{user.additionalDetails.contactNumber ? (user.additionalDetails.contactNumber):("Add contact Number")}</p>
                         </div>
 
                         <div>
                             <p className="mb-2 text-sm text-richblack-600">Date Of Birth</p>
-                            <p className="text-sm font-medium text-richblack-5">{user.dateOfBirth ? (user.dateOfBirth):("Add DOB")}</p>
+                            <p className="text-sm font-medium text-richblack-5">{user.additionalDetails.dateOfBirth ? (user.additionalDetails.dateOfBirth):("Add DOB")}</p>
                         </div>
 
                     </div>

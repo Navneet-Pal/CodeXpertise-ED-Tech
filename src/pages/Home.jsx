@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import {IoIosArrowRoundForward} from "react-icons/io"
 import HighlightText from '../components/core/homepage/HighlightText'
@@ -10,15 +10,22 @@ import SkillSection from '../components/core/homepage/SkillSection'
 import PhotoSection from '../components/core/homepage/PhotoSection'
 import Instructor from "../assets/Images/Instructor.png"
 import Footer from '../components/Common/Footer'
+import ReviewSlider from '../components/Common/ReviewSlider'
+import {useSelector} from "react-redux"
 
 function Home() {
+
+    const {user} = useSelector((state)=> state.profile)
+    // console.log(user)
+    
+    
   return (
 
     <div className='text-white '>
     
         <div className='mx-auto w-11/12 max-w-maxContent items-center justify-between'>
         
-            <Link to={"/signup"}>
+            <Link to={!user ? "/signup" : "/dashboard/my-profile"}>
                 <div className='flex mt-14 items-center gap-1 bg-richblack-800 text-white w-52 justify-center h-10 rounded-3xl
                 mx-auto'>
                     <p >Become an Instructor</p>
@@ -27,6 +34,8 @@ function Home() {
             </Link>
 
             {/*section -- 1*/}
+
+            
 
             <section className=' flex flex-col'>
             
@@ -163,7 +172,9 @@ function Home() {
              </div>
              
              <p className='text-center text-4xl font-semobold mt-10'>Reviews from other learners</p>
-       
+             
+             <ReviewSlider />
+
        </div>
 
        {/*FOOTER */}

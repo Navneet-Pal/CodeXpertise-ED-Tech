@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Navigate } from "react-router-dom"
 
 function OpenRoute({children}) {
 
@@ -9,7 +9,7 @@ function OpenRoute({children}) {
         return children
     }
     else{
-        return <Link to={"/dashboard/my-profile"}></Link>
+        return <Navigate to="/dashboard/my-profile" />
     }
   
 }

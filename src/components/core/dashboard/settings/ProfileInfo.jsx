@@ -1,15 +1,37 @@
 import React from 'react'
 import { useForm } from "react-hook-form"
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigate } from "react-router-dom"
+import { updateProfile } from '../../../../services/operations/settingAPI'
+import IconBtn from '../../../Common/IconBtn'
 
 export default function ProfileInfo() {
 
     const {user} = useSelector((state)=>state.profile)
-    const {register,handleSubmit} = useForm();
+    const { token } = useSelector((state) => state.auth)
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+      } = useForm()
     const genders = ["Male", "Female", "Non-Binary", "Prefer not to say", "Other"]
 
+    const submitProfileForm = async (data) => {
+        
+        // console.log("Form Data - ", data)
+        try {
+           
+          dispatch(updateProfile(token, data))
+          navigate("/dashboard/my-profile")
+        } catch (error) {
+          console.log("ERROR MESSAGE - ", error.message)
+        }
+      }
+
   return (
-    <form  >
+    <form onSubmit={handleSubmit(submitProfileForm)}>
         
             <div className="my-10 flex flex-col gap-y-6 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
 
@@ -30,7 +52,11 @@ export default function ProfileInfo() {
 
                             className='rounded-lg bg-richblack-700 p-3 text-[16px] leading-[24px] text-richblack-5 shadow-[0_1px_0_0] shadow-white/50 placeholder:text-richblack-400 focus:outline-none'
                         />
-                        
+                        {errors.firstName && (
+                            <span className="-mt-1 text-[12px] text-yellow-100">
+                            Please enter your first name.
+                            </span>
+                        )}
                     </div>
 
                     <div className="flex flex-col gap-2 lg:w-[48%]">
@@ -45,7 +71,11 @@ export default function ProfileInfo() {
 
                             className='rounded-lg bg-richblack-700 p-3 text-[16px] leading-[24px] text-richblack-5 shadow-[0_1px_0_0] shadow-white/50 placeholder:text-richblack-400 focus:outline-none'
                         />
-                    
+                         {errors.lastName && (
+                            <span className="-mt-1 text-[12px] text-yellow-100">
+                            Please enter your last name.
+                            </span>
+                        )}
                     </div>
 
                 </div>
@@ -72,7 +102,11 @@ export default function ProfileInfo() {
 
                             className='rounded-lg bg-richblack-700 p-3 text-[16px] leading-[24px] text-richblack-5 shadow-[0_1px_0_0] shadow-white/50 placeholder:text-richblack-400 focus:outline-none'
                         />
-                        
+                        {errors.dateOfBirth && (
+                            <span className="-mt-1 text-[12px] text-yellow-100">
+                            {errors.dateOfBirth.message}
+                            </span>
+                        )}
                     </div>
 
                     <div className="flex flex-col gap-2 lg:w-[48%]">
@@ -94,6 +128,11 @@ export default function ProfileInfo() {
                                 })
                             }
                         </select>
+                        {errors.gender && (
+                            <span className="-mt-1 text-[12px] text-yellow-100">
+                            Please enter your Date of Birth.
+                            </span>
+                        )}
                     
                     </div>
 
@@ -120,7 +159,11 @@ export default function ProfileInfo() {
 
                             className='rounded-lg bg-richblack-700 p-3 text-[16px] leading-[24px] text-richblack-5 shadow-[0_1px_0_0] shadow-white/50 placeholder:text-richblack-400 focus:outline-none'
                         />
-                        
+                        {errors.contactNumber && (
+                            <span className="-mt-1 text-[12px] text-yellow-100">
+                            {errors.contactNumber.message}
+                            </span>
+                        )}
                     </div>
 
                     <div className="flex flex-col gap-2 lg:w-[48%]">
@@ -135,6 +178,11 @@ export default function ProfileInfo() {
 
                             className='rounded-lg bg-richblack-700 p-3 text-[16px] leading-[24px] text-richblack-5 shadow-[0_1px_0_0] shadow-white/50 placeholder:text-richblack-400 focus:outline-none'
                         />
+                        {errors.about && (
+                            <span className="-mt-1 text-[12px] text-yellow-100">
+                            Please enter your About.
+                            </span>
+                        )}
                     
                     </div>
 
@@ -145,14 +193,16 @@ export default function ProfileInfo() {
             {/* saving button */}
             <div className='flex items-end gap-2 justify-end'>
                 
-                <button className="cursor-pointer rounded-md bg-richblack-700 py-2 px-5 font-semibold text-richblack-50">
+                <button onClick={() => {
+                    navigate("/dashboard/my-profile")
+                    }} className="cursor-pointer rounded-md bg-richblack-700 py-2 px-5 font-semibold text-richblack-50">
                     Cancel
                 </button>
 
-                <button className='flex items-center border border-yellow-50 bg-transparent bg-yellow-50 cursor-pointer gap-x-2 rounded-md py-2 px-5 font-semibold text-richblack-900'>
-                Save</button>
+                <IconBtn type="submit" text="Save" />
             
             </div>
+            
         
     </form>
   )

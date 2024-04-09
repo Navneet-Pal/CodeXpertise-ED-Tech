@@ -1,15 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { FiUpload } from "react-icons/fi"
-import CustomButton from '../../homepage/CustomButton'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import IconBtn from '../../../Common/IconBtn';
+import { updateDisplayPicture } from '../../../../services/operations/settingAPI';
+import { useNavigate } from "react-router-dom"
 
 
 export default function ChangeProfilePhoto() {
 
     const {user} = useSelector((state)=>state.profile)
+    const { token } = useSelector((state) => state.auth)
     const fileInputRef = useRef();
     const [imageFile,setImageFile] = useState();
     const [previewSource,setPreviewSource] = useState();
+    const [loading, setLoading] = useState(false)
+    const dispatch = useDispatch()
+    const navigate= useNavigate();
   
 
     const handleClick = () => {
@@ -32,6 +38,24 @@ export default function ChangeProfilePhoto() {
             setPreviewSource(reader.result)
         }
     }
+
+    const handleFileUpload = () => {
+        try {
+          
+          setLoading(true)
+          const formData = new FormData()
+          formData.append("displayPicture", imageFile)
+        //   console.log("formdata", formData,imageFile)
+          dispatch(updateDisplayPicture(token, formData)).then(() => {
+            setLoading(false)
+           
+          })
+          navigate("/dashboard/my-profile")
+        } catch (error) {
+          console.log("ERROR MESSAGE - ", error.message)
+        }
+      }
+
 
     useEffect(()=>{
         if(imageFile){
@@ -65,13 +89,14 @@ export default function ChangeProfilePhoto() {
 
                 
 
-                <CustomButton active={true} >
-                    <div className='flex gap-2 items-center'>
-                        Upload 
-                        <FiUpload fontSize={18} /> 
-                    </div>
-                </CustomButton>  
-
+                <IconBtn
+                    text={loading ? "Uploading..." : "Upload"}
+                    onclick={handleFileUpload}
+                >
+                    {!loading && (
+                    <FiUpload className="text-lg text-richblack-900" />
+                    )}
+              </IconBtn>
             </div>
 
         </div>

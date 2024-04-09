@@ -20,8 +20,8 @@ export function sendOtp(email , navigate) {
     try {
       const response = await apiConnector("POST",SENDOTP_API, {email }  )
 
-      console.log("SENDOTP API RESPONSE " , response)
-      console.log(response.data.success)
+      // console.log("SENDOTP API RESPONSE " , response)
+      // console.log(response.data.success)
       navigate("/verifyemail")
     } 
     catch (error) {
@@ -41,7 +41,7 @@ export function signUp(firstname,lastname,email,password,confirmPassword,account
         
         const response = await apiConnector("POST",SIGNUP_API,{firstname,lastname,email,password,confirmPassword,accountType,otp,navigate})
         
-        console.log("SIGNUP API RESPONSE............", response)
+        // console.log("SIGNUP API RESPONSE............", response)
         navigate("/login")
       } 
       catch (error) {
@@ -56,7 +56,7 @@ export function login(email,password,navigate){
   return async(dispatch)=>{
     try {
       const response = await apiConnector("POST",LOGIN_API,{email,password})
-      console.log("LOGIN API RESPONSE............", response);
+      // console.log("LOGIN API RESPONSE............", response);
       dispatch(setToken(response.data.token))
       dispatch(setUser(response.data.user))
 
@@ -105,7 +105,7 @@ export function resetPassword(password,confirmPassword,token,setResetDone){
     try{
       const response = await apiConnector("POST", RESETPASSWORD_API, {password, confirmPassword, token});
 
-      console.log("RESET Password RESPONSE ... ", response);
+      // console.log("RESET Password RESPONSE ... ", response);
 
       
       // if(!response.data.success) {

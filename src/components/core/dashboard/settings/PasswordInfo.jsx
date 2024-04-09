@@ -2,16 +2,29 @@ import React, { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useSelector } from 'react-redux';
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai"
+import { changePassword } from '../../../../services/operations/settingAPI';
+import { useNavigate } from "react-router-dom"
 
 export default function PasswordInfo() {
 
-    const {user} = useSelector((state)=>state.profile)
-    const {register,handleSubmit} = useForm();
+    const { token } = useSelector((state) => state.auth)
+    const navigate = useNavigate()
+    const {register,handleSubmit, formState: { errors },} = useForm();
     const [showpassword,setShowPassword] = useState(false)
     const [showconfirmpassword, setShowConfirmPassword] = useState(false)
 
+    const submitPasswordForm = async (data) => {
+        // console.log("password Data - ", data)
+        try {
+          await changePassword(token, data)
+          navigate("/dashboard/my-profile")
+        } catch (error) {
+          console.log("ERROR MESSAGE - ", error.message)
+        }
+      }
+
   return (
-    <form  >
+    <form  onSubmit={handleSubmit(submitPasswordForm)}>
         
             <div className="my-10 flex flex-col gap-y-6 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
 

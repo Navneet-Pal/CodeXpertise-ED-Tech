@@ -5,11 +5,13 @@ const bcyrpt= require("bcrypt");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const otpGenerator = require("otp-generator");
+const mailSender = require("../utils/mailSender");
+const {passwordUpdated} = require("../mailTempletes/passwordUpdateTemp")
 
 exports.signUp = async (req,res)=>{
     try {
 
-        console.log("aaye hai bhai")
+        
         const {firstname , lastname , email,password, confirmPassword, otp, contactNumber, accountType} = req.body;
      
         if(!firstname || !lastname || !email || !password || !confirmPassword || !otp){
@@ -189,16 +191,20 @@ exports.sendOtp = async (req,res)=>{
 
 exports.changePassword = async (req,res)=>{
     try {
-        const {oldPassword, newPassword,confirmPasssword} = req.body;
-        const id = req.user.id;
-        if(!oldPassword || !newPassword || !confirmPasssword || !id){
+        const {oldPassword, newPassword} = req.body;
+        
+        if(!oldPassword || !newPassword ){
             return res.status(401).json({
                 status:false,
                 message:"fill all details"
             })
         }
-        const userDetails = await User.findOne(id);
+        
+        const userDetails = await User.findById(req.user.id)
+        
+        
         const passMatch =await bcyrpt.compare(oldPassword,userDetails.password);
+        
         if(!passMatch){
             return res
 				.status(401)
@@ -206,18 +212,12 @@ exports.changePassword = async (req,res)=>{
             );
         }
 
-        if(newPassword !== confirmPasssword){
-            return res.status(400).json({
-				success: false,
-				message: "The password and confirm password does not match",
-			});
-        }
-
+       
         const encryptPass = await bcyrpt.hash(newPassword,10);
-        const response = await User.findByIdAndUpdate(id , { password:encryptPass} , {new:true});
+        const response = await User.findByIdAndUpdate( req.user.id , { password:encryptPass} , {new:true});
         
         try {
-            const emailResponse = await mailSender(response.email , passwordUpdate(response.email,
+            const emailResponse = await mailSender(response.email , passwordUpdated(response.email,
                 `Password updated successfully for ${response.firstname} ${response.lastname}`) )
         } 
         catch (error) {

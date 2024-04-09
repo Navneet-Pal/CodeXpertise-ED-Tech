@@ -16,6 +16,8 @@ function Navbar() {
     const [subLinks, setSubLinks]  = useState([]);
     const {token} = useSelector( (state) => state.auth);
     const {user} = useSelector( (state) => state.profile );
+    const [loading, setLoading] = useState(false)
+    const { totalItems } = useSelector((state) => state.cart)
 
     function setTab(value){
         
@@ -25,6 +27,7 @@ function Navbar() {
     async function fetchSubLinks(){
         try {
             const res = await apiConnector ("GET",categories.CATEGORIES_API);
+            
             setSubLinks(res.data.data);
            
            
@@ -44,10 +47,13 @@ function Navbar() {
     
         <div className='text-white w-11/12 max-w-maxContent mx-auto '>
 
-            <div className='flex gap-x-6 text-richblack-25 items-center justify-between'>
+            <div className='flex text-richblack-25 items-center gap-x-52'>
             
                 <Link to="/">
-                    <img src={logo} width={160} height={42} loading='lazy'/>
+                    <div className='noise'>
+                        <h1 className='text-4xl font-bold'>CodeXpertise</h1>
+                    </div>
+                    {/* <img src={logo} width={160} height={42} loading='lazy'/> */}
                 </Link>
                 
 
@@ -59,31 +65,28 @@ function Navbar() {
                                     {
                                         item.title === "Catalog" ? 
                                         (
-                                            <div className='relative flex items-center gap-2 group'>
+                                            <div className={`group relative flex cursor-pointer items-center gap-1 ${
+                                                setTab("/catalog/:catalogName")
+                                                ? "text-yellow-25"
+                                                : "text-richblack-25"
+                                            }`}>
                                             
 
                                             <p>{item.title}</p>
                                             <IoIosArrowDropdownCircle/>
 
-                                            <div className='invisible absolute left-[50%]
-                                            translate-x-[-50%] translate-y-[80%]
-                                            top-[50%]
-                                            flex flex-col rounded-md bg-richblack-5 p-4 text-richblack-900
-                                            opacity-0 transition-all duration-200 group-hover:visible
-                                            group-hover:opacity-100 lg:w-[300px]'>
+                                            <div className="invisible absolute left-[50%] top-[50%] z-[1000] flex w-[200px] translate-x-[-50%] translate-y-[3em] flex-col rounded-lg bg-richblack-5 p-4 text-richblack-900 opacity-0 transition-all duration-150 group-hover:visible group-hover:translate-y-[1.65em] group-hover:opacity-100 lg:w-[300px]">
 
-                                                <div className='absolute left-[50%] top-0
-                                                translate-x-[80%]
-                                                translate-y-[-45%] h-6 w-6 rotate-45 rounded bg-richblack-5'></div>
-                                                
-                                                {
-                                                    subLinks.length ? (
+                                                <div className="absolute left-[50%] top-0 -z-10 h-6 w-6 translate-x-[80%] translate-y-[-40%] rotate-45 select-none rounded bg-richblack-5"></div>
+                                                {loading ? (
+                                                    <p className="text-center">Loading...</p>
+                                                ): subLinks.length ? (
                                                             subLinks.map( (subLink, index) => (
-                                                                <Link to={`${subLink.link}`} key={index}>
+                                                                <Link to={`/catalog/${subLink.name.split(" ").join("-").toLowerCase()}`} key={index}>
                                                                     <p>{subLink.name}</p>
                                                                 </Link>
                                                             ) )
-                                                    ) : (<div></div>)
+                                                    ) : (<p className="text-center">No Courses Found</p>)
                                                 }
                                             
                                             </div>
@@ -114,9 +117,13 @@ function Navbar() {
 
                     {
                         user && user.accountType != "instructor" && 
-                        <Link to={"/dashboard/cart"}>
-                            <AiOutlineShoppingCart fontSize={26} />
-                            
+                        <Link to={"/dashboard/cart"} className="relative">
+                        <AiOutlineShoppingCart className="text-2xl text-richblack-100" />
+                        {totalItems > 0 && (
+                                <span className="absolute bottom-4 -right-2 grid h-5 w-5 place-items-center overflow-hidden rounded-full bg-richblack-600 text-center text-xs font-bold text-yellow-100">
+                                {totalItems}
+                                </span>
+                            )}
                         </Link>
                     }
                     {
