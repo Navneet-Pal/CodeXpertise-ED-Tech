@@ -1,4 +1,4 @@
-const CourseProgress = require("../models/CourseProgress")
+const CourseProgress = require("../models/courseProgress")
 const subSection = require("../models/subSection")
 
 
