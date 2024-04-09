@@ -1,5 +1,5 @@
 const Category = require("../models/Category");
-const CourseProgress = require("../models/CourseProgress");
+const CourseProgress = require("../models/courseProgress");
 const Section = require("../models/Section");
 const Course = require("../models/course");
 const subSection = require("../models/subSection");
