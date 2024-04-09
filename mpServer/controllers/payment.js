@@ -6,7 +6,7 @@ const crypto = require("crypto")
 const {courseEnrollmentEmail} = require("../mailTempletes/courseEnrollTemp");
 const mongoose = require("mongoose");
 const { paymentSuccessEmail } = require("../mailTempletes/paymentSuccessEmail");
-const CourseProgress = require("../models/CourseProgress");
+const CourseProgress = require("../models/courseProgress");
 const mailSender = require("../utils/mailSender");
 
 exports.capturePayment = async(req,res)=>{
