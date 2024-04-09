@@ -3,7 +3,7 @@ const User = require("../models/user");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
 const schedule = require("node-schedule");
 const { convertSecondsToDuration } = require("../utils/secToDuration");
-// const CourseProgress = require("../models/CourseProgress");
+const CourseProgress = require("../models/courseProgress");
 const Course = require("../models/course")
 
 exports.updateProfile = async (req, res) => {
@@ -152,41 +152,41 @@ exports.getEnrolledCourses = async (req, res) => {
         .exec()
 		
 		// userDetails = userDetails.toObject()
-		// var SubsectionLength = 0
-		// for (var i = 0; i < userDetails.courses.length; i++) {
+		var SubsectionLength = 0
+		for (var i = 0; i < userDetails.courses.length; i++) {
 			
-		//   let totalDurationInSeconds = 0
-		//   SubsectionLength = 0
-		//   for (var j = 0; j < userDetails.courses[i].courseContent.length; j++) {
+		  let totalDurationInSeconds = 0
+		  SubsectionLength = 0
+		  for (var j = 0; j < userDetails.courses[i].courseContent.length; j++) {
 			
-		// 	totalDurationInSeconds += userDetails.courses[i].courseContent[
-		// 	  j
-		// 	].subSection.reduce((acc, curr) => acc + parseInt(curr.timeDuration), 0)
-		// 	userDetails.courses[i].totalDuration = convertSecondsToDuration(
-		// 	  totalDurationInSeconds
-		// 	)
-		// 	SubsectionLength +=
-		// 	  userDetails.courses[i].courseContent[j].subSection.length
-		//   }
+			totalDurationInSeconds += userDetails.courses[i].courseContent[
+			  j
+			].subSection.reduce((acc, curr) => acc + parseInt(curr.timeDuration), 0)
+			userDetails.courses[i].totalDuration = convertSecondsToDuration(
+			  totalDurationInSeconds
+			)
+			SubsectionLength +=
+			  userDetails.courses[i].courseContent[j].subSection.length
+		  }
 		  
-		//   let courseProgressCount = await CourseProgress.findOne({
-		// 	courseID: userDetails.courses[i]._id,
-		// 	userId: userId,
-		//   })
+		  let courseProgressCount = await CourseProgress.findOne({
+			courseID: userDetails.courses[i]._id,
+			userId: userId,
+		  })
 		  
 		
-		//   courseProgressCount = courseProgressCount?.completedVideos.length
-		//   if (SubsectionLength === 0) {
-		// 	userDetails.courses[i].progressPercentage = 100
-		//   } else {
-		// 	// To make it up to 2 decimal point
-		// 	const multiplier = Math.pow(10, 2)
-		// 	userDetails.courses[i].progressPercentage =
-		// 	  Math.round(
-		// 		(courseProgressCount / SubsectionLength) * 100 * multiplier
-		// 	  ) / multiplier
-		//   }
-		// }
+		  courseProgressCount = courseProgressCount?.completedVideos.length
+		  if (SubsectionLength === 0) {
+			userDetails.courses[i].progressPercentage = 100
+		  } else {
+			// To make it up to 2 decimal point
+			const multiplier = Math.pow(10, 2)
+			userDetails.courses[i].progressPercentage =
+			  Math.round(
+				(courseProgressCount / SubsectionLength) * 100 * multiplier
+			  ) / multiplier
+		  }
+		}
 	
       if (!userDetails) {
         return res.status(400).json({
