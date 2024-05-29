@@ -51,9 +51,11 @@ exports.categoryPageDetails = async (req,res)=>{
         .populate({
             path: "courses",
             match: { status: "published" },
+            populate: "ratingAndReview",
+            populate:"instructor",
           })
           .exec()
-        // console.log(selectedCategory)
+        
         if(!selectedCategory){
             return res.status(404).json({
                 success:false,

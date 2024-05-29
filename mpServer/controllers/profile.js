@@ -3,8 +3,9 @@ const User = require("../models/user");
 const { uploadImageToCloudinary } = require("../utils/imageUploader");
 const schedule = require("node-schedule");
 const { convertSecondsToDuration } = require("../utils/secToDuration");
-const CourseProgress = require("../models/CourseProgress");
-const Course = require("../models/course")
+
+const Course = require("../models/course");
+const courseprog = require("../models/courseprog");
 
 exports.updateProfile = async (req, res) => {
 	try {
@@ -13,7 +14,7 @@ exports.updateProfile = async (req, res) => {
 
 		// Find the profile by id
 		const userDetails = await User.findById(id);
-		console.log(userDetails)
+		
 		const profile = await Profile.findById(userDetails.additionalDetails);
 	
 		// Update the profile fields
@@ -137,7 +138,8 @@ exports.getEnrolledCourses = async (req, res) => {
     try {
 		
       const userId = req.user.id
-      const userDetails = await User.findOne({
+	
+      let userDetails = await User.findOne({
         _id: userId,
       })
 		.populate({
@@ -150,8 +152,10 @@ exports.getEnrolledCourses = async (req, res) => {
 			},
 		})
         .exec()
+
+		// console.log(userDetails);
 		
-		// userDetails = userDetails.toObject()
+		userDetails = userDetails.toObject()
 		var SubsectionLength = 0
 		for (var i = 0; i < userDetails.courses.length; i++) {
 			
@@ -169,7 +173,7 @@ exports.getEnrolledCourses = async (req, res) => {
 			  userDetails.courses[i].courseContent[j].subSection.length
 		  }
 		  
-		  let courseProgressCount = await CourseProgress.findOne({
+		  let courseProgressCount = await courseprog.findOne({
 			courseID: userDetails.courses[i]._id,
 			userId: userId,
 		  })
@@ -187,6 +191,7 @@ exports.getEnrolledCourses = async (req, res) => {
 			  ) / multiplier
 		  }
 		}
+		
 	
       if (!userDetails) {
         return res.status(400).json({
@@ -199,9 +204,10 @@ exports.getEnrolledCourses = async (req, res) => {
         data: userDetails.courses,
       })
     } catch (error) {
-      return res.status(500).json({
+      return res.status(400).json({
         success: false,
         message: error.message,
+		
       })
     }
 };

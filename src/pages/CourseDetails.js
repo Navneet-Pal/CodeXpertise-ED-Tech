@@ -65,7 +65,7 @@ const CourseDetails = () => {
     useEffect(() => {
 
         let lectures = 0
-        response?.data?.courseDetails?.courseContent?.forEach((sec) => {
+        response?.data?.details?.courseContent?.forEach((sec) => {
           lectures += sec.subSection.length || 0
         })
         setTotalNoOfLectures(lectures)
@@ -84,7 +84,7 @@ const CourseDetails = () => {
     }
 
     // if(response)
-    // console.log("response check kar rhe h",response)
+    
 
     const {
         _id: course_id,
@@ -94,9 +94,9 @@ const CourseDetails = () => {
         price,
         whatYouWillLearn,
         courseContent,
-        ratingAndReviews,
+        ratingAndReview,
         instructor,
-        studentsEnroled,
+        studentEnrolled,
         createdAt,
     } = response.data?.details
 
@@ -149,12 +149,12 @@ const CourseDetails = () => {
                         <div className="text-md flex flex-wrap items-center gap-2">
                             <span className="text-yellow-25">{avgReviewCount}</span>
                             <RatingStars Review_Count={avgReviewCount} Star_Size={24} />
-                            <span>{`(${ratingAndReviews?.length} reviews)`}</span>
-                            <span>{`${studentsEnroled?.length} students enrolled`}</span>
+                            <span>{`(${ratingAndReview?.length} reviews)`}</span>
+                            <span>{`${studentEnrolled?.length} students enrolled`}</span>
                         </div>
 
                         <div>
-                            <p className="">Created By {`${instructor.firstName} ${instructor.lastName}`}</p>
+                            <p className="">Created By {`${instructor.firstname} ${instructor.lastname}`}</p>
                         </div>
 
                         <div className="flex flex-wrap gap-5 text-lg">
@@ -164,7 +164,7 @@ const CourseDetails = () => {
                             </p>
                             <p className="flex items-center gap-2">
                             {" "}
-                            <HiOutlineGlobeAlt /> English
+                            <HiOutlineGlobeAlt /> English, Hindi
                             </p>
                         </div>
 
@@ -201,7 +201,7 @@ const CourseDetails = () => {
                 {/* What will you learn section */}
                 <div className="my-8 border border-richblack-600 p-8">
 
-                    <p className="text-3xl font-semibold">What you'll learn</p>
+                    <p className="text-3xl font-semibold">What you'll learn?</p>
                     <div className="mt-5">
                     <Markdown>{whatYouWillLearn}</Markdown>
                     </div>
@@ -264,7 +264,7 @@ const CourseDetails = () => {
                             alt="Author"
                             className="h-14 w-14 rounded-full object-cover"
                             />
-                            <p className="text-lg">{`${instructor.firstName} ${instructor.lastName}`}</p>
+                            <p className="text-lg">{`${instructor.firstname} ${instructor.lastname}`}</p>
                         </div>
 
                         <p className="text-richblack-50">

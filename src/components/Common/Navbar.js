@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import logo from "../../assets/Logo/Logo-Full-Light.png"
+import logo from "../../assets/Logo/codexpertise new purple logo.png"
 import { NavbarLinks } from '../../data/navbar-links';
 import { apiConnector } from '../../services/apiConnector';
 import { categories } from '../../services/apis';
@@ -50,10 +50,10 @@ function Navbar() {
             <div className='flex text-richblack-25 items-center gap-x-52'>
             
                 <Link to="/">
-                    <div className='noise'>
+                    {/* <div className='noise'>
                         <h1 className='text-4xl font-bold'>CodeXpertise</h1>
-                    </div>
-                    {/* <img src={logo} width={160} height={42} loading='lazy'/> */}
+                    </div> */}
+                    <img class="navlogo" src={logo} width={170} height={40} loading='lazy'/>
                 </Link>
                 
 

@@ -144,7 +144,7 @@ exports.login = async (req,res)=>{
 
 exports.sendOtp = async (req,res)=>{
     try {
-        console.log("andar aaye h");
+        
         const {email} = req.body;
         if(!email){
             return res.status(401).json({

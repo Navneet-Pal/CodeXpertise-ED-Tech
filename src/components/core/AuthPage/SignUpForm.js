@@ -121,7 +121,7 @@ function SignUpForm() {
                     required
                     name='password'
                     id='password'
-                    type='text'
+                    type={showPassword ? "text" : "password"}
                     placeholder='Enter password'
                     value={formData.password}
                     onChange={changeHandler}
@@ -140,7 +140,7 @@ function SignUpForm() {
                     required
                     name='confirmPassword'
                     id='confirmPassword'
-                    type='text'
+                    type={showConfirmPassword ? "text" : "password"}
                     placeholder='confirmPassword'
                     value={formData.confirmPassword}
                     onChange={changeHandler}

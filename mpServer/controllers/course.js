@@ -1,7 +1,8 @@
 const Category = require("../models/Category");
-const CourseProgress = require("../models/CourseProgress");
+// const CourseProgress = require("../models/courseprog");
 const Section = require("../models/Section");
 const Course = require("../models/course");
+const courseprog = require("../models/courseprog");
 const subSection = require("../models/subSection");
 const User = require("../models/user");
 const {uploadImageToCloudinary} = require("../utils/imageUploader");
@@ -184,7 +185,7 @@ exports.getCourseDetail = async(req,res)=>{
         const details = await Course.findOne({_id:courseId}).populate({
             path:"instructor", populate:{path:"additionalDetails"}
         }).populate("category")
-        // .populate("ratingAndReviews")
+        .populate("ratingAndReview")
         .populate({
           path: "courseContent",
           populate: {
@@ -330,12 +331,12 @@ exports.getFullCourseDetails = async (req, res) => {
       })
       .exec()
 
-    let courseProgressCount = await CourseProgress.findOne({
+    let courseprogresCount = await courseprog.findOne({
       courseID: courseId,
       userId: userId,
     })
 
-    // console.log("courseProgressCount : ", courseProgressCount)
+    
 
     if (!courseDetails) {
       return res.status(400).json({
@@ -366,8 +367,8 @@ exports.getFullCourseDetails = async (req, res) => {
       data: {
         courseDetails,
         totalDuration,
-        completedVideos: courseProgressCount?.completedVideos
-          ? courseProgressCount?.completedVideos
+        completedVideos: courseprogresCount?.completedVideos
+          ?courseprogresCount?.completedVideos
           : [],
       },
     })

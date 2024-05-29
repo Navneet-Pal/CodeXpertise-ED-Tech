@@ -6,6 +6,7 @@ import RatingStars from '../../Common/RatingStars'
 const Course_Card = ({ course, Height }) => {
 
     const [avgReviewCount, setAvgReviewCount] = useState(0);
+    // console.log("course dekh rhe h",course)
 
     useEffect(() => {
 
@@ -26,7 +27,7 @@ const Course_Card = ({ course, Height }) => {
 
                 <p className="text-xl text-richblack-5">{course?.courseName}</p>
                 <p className="text-sm text-richblack-50">
-                    {course?.instructor?.firstName} {course?.instructor?.lastName}
+                    {course?.instructor?.firstname} {course?.instructor?.lastname}
                 </p>
 
                 <div className="flex items-center gap-2">

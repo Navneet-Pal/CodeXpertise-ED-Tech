@@ -1,4 +1,5 @@
-const CourseProgress = require("../models/CourseProgress")
+// const CourseProgress = require("../models/courseprog")
+const courseprog = require("../models/courseprog")
 const subSection = require("../models/subSection")
 
 
@@ -14,10 +15,11 @@ exports.updateCourseProgress = async (req, res) => {
     }
 
     // Find the course progress document for the user and course
-    let courseProgres = await CourseProgress.findOne({
+    let courseProgres = await courseprog.findOne({
       courseID: courseId,
       userId: userId,
     })
+   
 
     if (!courseProgres) {
       // If course progress doesn't exist, create a new one

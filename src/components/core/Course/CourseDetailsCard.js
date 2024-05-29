@@ -39,10 +39,10 @@ const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) =>
         }
 
         setConfirmationModal({
-          text1: "You are not logged in!",
-          text2: "Please login to add To Cart",
-          btn1Text: "Login",
-          btn2Text: "Cancel",
+          heading: "You are not logged in!",
+          subheading: "Please login to add To Cart",
+          btn1text: "Login",
+          btn2text: "Cancel",
           btn1Handler: () => navigate("/login"),
           btn2Handler: () => setConfirmationModal(null),
         })
@@ -97,7 +97,7 @@ const CourseDetailsCard = ({ course, setConfirmationModal, handleBuyCourse }) =>
 
                     <div className="flex flex-col gap-3 text-sm text-caribbeangreen-100">
 
-                        {course?.instructions?.map((item, i) => {
+                        {course?.instruction?.map((item, i) => {
                             return (
                             <p className={`flex gap-2`} key={i}>
                                 <BsFillCaretRightFill />

@@ -11,6 +11,8 @@ export default function EnrolledCourses() {
 
   const [enrolledCourses , setEnrolledCourses] = useState([]);
 
+  // console.log("yeh h enrol cour",enrolledCourses);
+
   useEffect(() => {
     ;(async () => {
       try {
@@ -88,7 +90,7 @@ export default function EnrolledCourses() {
 
                     </div>
 
-                    <p className="w-1/4 px-2 py-3">{course.totalDuration}</p>
+                    <p className="w-1/4 px-2 py-3">{course?.totalDuration}</p>
 
                     <div className="flex w-1/5 flex-col gap-2 px-2 py-3">
 

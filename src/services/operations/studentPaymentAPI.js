@@ -4,6 +4,7 @@ import {apiConnector} from '../apiConnector'
 import rzpLogo from "../../assets/Logo/rzp_logo.png"
 import { setPaymentLoading } from "../../slices/courseSlice"
 import { resetCart } from "../../slices/cartSlice"
+// const rkey= process.env.RAZORPAY_KEY
 
 const { COURSE_PAYMENT_API,COURSE_VERIFY_API,SEND_PAYMENT_SUCCESS_EMAIL_API,} = studentEndpoints
 
@@ -48,7 +49,7 @@ export async function BuyCourse(token,courses,user_details, navigate,dispatch) {
       
       // Opening the Razorpay SDK
       const options = {
-        key: process.env.RAZORPAY_KEY,
+        key: 'rzp_test_t4LUM04KXw6wHc',
         currency: orderResponse.data.data.currency,
         amount: `${orderResponse.data.data.amount}`,
         order_id: orderResponse.data.data.id,
@@ -56,7 +57,7 @@ export async function BuyCourse(token,courses,user_details, navigate,dispatch) {
         description: "Thank you for Purchasing the Course.",
         image: rzpLogo,
         prefill: {
-          name: `${user_details.firstName} ${user_details.lastName}`,
+          name: `${user_details.firstname} ${user_details.lastname}`,
           email: user_details.email,
         },
         handler: function (response) {
@@ -64,14 +65,22 @@ export async function BuyCourse(token,courses,user_details, navigate,dispatch) {
           verifyPayment({ ...response, courses }, token, navigate, dispatch)
         },
       }
+      console.log("options",options)
       const paymentObject = new window.Razorpay(options)
-  
+      console.log(paymentObject)
+      console.log("yaha h dikka1t");
       paymentObject.open()
+      console.log("yaha h dikka2t");
+      
       paymentObject.on("payment.failed", function (response) {
         toast.error("Oops! Payment Failed.")
-        console.log(response.error)
+        console.log("samasiya",response.error)
+        console.log("ab samjh aaya")
+       
       })
+      console.log("yaha h dikkat3");
     } catch (error) {
+      console.log("yaha h dikkat4");
       console.log("PAYMENT API ERROR............", error)
       toast.error("Could Not make Payment.")
     }

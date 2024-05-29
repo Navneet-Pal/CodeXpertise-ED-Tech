@@ -14,7 +14,8 @@ function ReviewSlider() {
 
     const [reviews, setReviews] = useState([])
     const truncateWords = 15
-  
+    
+    
     useEffect(() => {
       ;(async () => {
         const { data } = await apiConnector(
@@ -58,7 +59,7 @@ function ReviewSlider() {
                       src={
                         review?.user?.image
                           ? review?.user?.image
-                          : `https://api.dicebear.com/5.x/initials/svg?seed=${review?.user?.firstName} ${review?.user?.lastName}`
+                          : `https://api.dicebear.com/5.x/initials/svg?seed=${review?.user[0]?.firstname} ${review?.user[0]?.lastname}`
                       }
                       alt=""
                       className="h-9 w-9 rounded-full object-cover"
@@ -66,7 +67,7 @@ function ReviewSlider() {
 
                     <div className="flex flex-col">
                       
-                      <h1 className="font-semibold text-richblack-5">{`${review?.user?.firstName} ${review?.user?.lastName}`}</h1>
+                      <h1 className="font-semibold text-richblack-5">{`${review?.user[0]?.firstname} ${review?.user[0]?.lastname}`}</h1>
                       <h2 className="text-[12px] font-medium text-richblack-500">
                         {review?.course?.courseName}
                       </h2>

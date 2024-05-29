@@ -6,13 +6,15 @@ const crypto = require("crypto")
 const {courseEnrollmentEmail} = require("../mailTempletes/courseEnrollTemp");
 const mongoose = require("mongoose");
 const { paymentSuccessEmail } = require("../mailTempletes/paymentSuccessEmail");
-const CourseProgress = require("../models/CourseProgress");
+
 const mailSender = require("../utils/mailSender");
+const courseprog = require("../models/courseprog");
 
 exports.capturePayment = async(req,res)=>{
     
     const {courses} = req.body;
     const userId = req.user.id;
+   
 
     if(courses.length ===0){
         return res.json({
@@ -48,18 +50,18 @@ exports.capturePayment = async(req,res)=>{
             return res.status(500).json({ success: false, message: error.message })
         }
     }
-
-    console.log("c5")
+   
     const options={
         amount:total_amount*100,
         currency:"INR",
         receipt: Math.random(Date.now()).toString(),
       
     }
-   
+    
     try {
+       
         const paymentResponse = await instance.orders.create(options);
-        
+       
         return res.status(200).json({
             success:true,
             data:paymentResponse
@@ -77,14 +79,14 @@ exports.capturePayment = async(req,res)=>{
 }
 
 exports.verifySignature = async (req,res)=>{
-
+    
     const razorpay_order_id = req.body?.razorpay_order_id
     const razorpay_payment_id = req.body?.razorpay_payment_id
     const razorpay_signature = req.body?.razorpay_signature
     const courses = req.body?.courses
 
     const userId = req.user.id
-
+    
     if (
         !razorpay_order_id ||
         !razorpay_payment_id ||
@@ -96,16 +98,17 @@ exports.verifySignature = async (req,res)=>{
     }
 
     let body = razorpay_order_id + "|" + razorpay_payment_id
-
+   
     const expectedSignature = crypto.createHmac("sha256", process.env.RAZORPAY_SECRET)
                                     .update(body.toString())
                                     .digest("hex")
-
+                                  
     if (expectedSignature === razorpay_signature) {
+        console.log("expectedsig == razpr sign")
         await enrollStudents(courses, userId, res)
         return res.status(200).json({ success: true, message: "Payment Verified" })
     }
-
+   
     return res.status(200).json({ success: false, message: "Payment Failed" })
 
    
@@ -160,15 +163,16 @@ const enrollStudents = async(courses,userId,res)=>{
                 .json({ success: false, error: "Course not found" })
             }
 
-            const courseProgress = await CourseProgress.create({
+            const courseprogress = await courseprog.create({
                 courseID: courseId,
                 userId: userId,
                 completedVideos: [],
             })
+           
 
             const enrolledStudent = await User.findByIdAndUpdate(
                 userId,
-                { $push:{ courses:courseId, courseProgress: courseProgress._id, } },
+                { $push:{ courses:courseId, courseprogress: courseprogress._id, } },
                 {new:true}
             )
 

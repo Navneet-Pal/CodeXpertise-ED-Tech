@@ -34,13 +34,13 @@ const Footer = () => {
                 Company
               </h1>
               <div className="flex flex-col gap-2">
-                {["About", "Careers", "Affiliates"].map((ele, i) => {
+                {["About", "Contact"].map((ele, i) => {
                   return (
                     <div
                       key={i}
                       className="text-[14px] cursor-pointer hover:text-richblack-50 transition-all duration-200"
                     >
-                      <Link to={ele.toLowerCase()}>{ele}</Link>
+                      <Link to={`/${ele.toLowerCase()}`}>{ele}</Link>
                     </div>
                   );
                 })}
